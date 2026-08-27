@@ -55,7 +55,12 @@ let rec eval e (env : (string * int) list) : int =
         | _ -> failwith "error"
     | Prim _            -> failwith "unknown primitive";;
 
-let e1v  = eval e1 env;;
-let e2v1 = eval e2 env;;
-let e2v2 = eval e2 [("a", 314)];;
-let e3v  = eval e3 env;;
+let e4 = Prim("min", Var "a", Var "c")
+let e5 = Prim("==", Var "b", CstI 3)
+let e6 = Prim("max", CstI 3, CstI 5)
+
+let e1v  = eval e4 env;;
+let e2v1 = eval e5 env;;
+let e6eval = eval e6 env
+(*let e2v2 = eval e2 [("a", 314)];;
+let e3v  = eval e3 env;; *)
