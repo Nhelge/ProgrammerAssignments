@@ -101,10 +101,31 @@ module exercise1_2 =
 
     let rec fmt a =
         match a with
-        | CstI x -> "x"
+        | CstI x -> string x
         | Var x -> x
+        | Add (a1, a2) -> "(" + fmt a1 + " + " + fmt a2 + ")"
+        | Sub (a1, a2) -> "(" + fmt a1 + " - " + fmt a2 + ")"
+        | Mul (a1, a2) -> "(" + fmt a1 + " * " + fmt a2 + ")"
+    
+    let rec simplify a =
+        match a with
+        | CstI x -> CstI x
+        | Var x -> Var x
         | Add (a1, a2) ->
-            match fmt a1, fmt a2 with
-            | x, y -> x + y
-        
-
+            match simplify a1, simplify a2 with
+            | CstI 0, s-> s
+            | s, CstI 0 -> s
+            | s1, s2 -> Add (s1, s2)
+        | Sub (a1, a2) ->
+            match simplify a1, simplify a2 with
+            | s, CstI 0 -> s
+            | s1, s2 -> Sub (s1, s2)
+        | Mul (a1, a2) ->
+            match simplify a1, simplify a2 with
+            | s, CstI 0 -> CstI 0
+            | CstI 0, s -> CstI 0
+            | s, CstI 1 -> s
+            | CstI 1, s -> s
+            | s1, s2 -> Mul (s1, s2)
+    
+    let t1 = Mul(Add(CstI 1, CstI 0), Add(Var "x", CstI 0))
