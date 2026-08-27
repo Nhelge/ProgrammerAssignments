@@ -1,0 +1,5 @@
+C:\Users\Nanna\skole\programmer\assignments\obj\Debug\net9.0\assignments.fsproj.AssemblyReference.cache
+C:\Users\Nanna\skole\programmer\assignments\obj\Debug\net9.0\assignments.AssemblyInfoInputs.cache
+C:\Users\Nanna\skole\programmer\assignments\obj\Debug\net9.0\assignments.AssemblyInfo.fs
+C:\Users\Nanna\skole\programmer\assignments\obj\Debug\net9.0\assignments.fsproj.CoreCompileInputs.cache
+C:\Users\Nanna\skole\programmer\assignments\obj\Debug\net9.0\assignments.sourcelink.json

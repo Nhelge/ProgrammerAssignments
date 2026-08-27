@@ -42,16 +42,16 @@ let rec eval e (env : (string * int) list) : int =
     | Prim("*", e1, e2) -> eval e1 env * eval e2 env
     | Prim("-", e1, e2) -> eval e1 env - eval e2 env
     | Prim("min", e1, e2) -> 
-        match eval e1, eval e2 with
-        | CstI x, CstI y -> if x > y then y else x
+        match eval e1 env, eval e2 env with
+        | x, y -> if x > y then y else x
         | _ -> failwith "error"
     | Prim ("max", e1, e2) ->
-        match eval e1, eval e2 with
-        | CstI x, CstI y -> if x > y then x else y
+        match eval e1 env, eval e2 env with
+        | x, y -> if x > y then x else y
         | _ -> failwith "error"
     | Prim ("==", e1, e2) ->
-        match eval e1, eval e2 with
-        | CstI x, CstI y -> if x = y then 1 else 0
+        match eval e1 env, eval e2 env with
+        | x, y -> if x = y then 1 else 0
         | _ -> failwith "error"
     | Prim _            -> failwith "unknown primitive";;
 
