@@ -129,3 +129,11 @@ module exercise1_2 =
             | s1, s2 -> Mul (s1, s2)
     
     let t1 = Mul(Add(CstI 1, CstI 0), Add(Var "x", CstI 0))
+
+    let rec deriv a v =
+        match a with
+        | CstI _ -> CstI 0
+        | Var x -> if x = v then CstI 1 else CstI 0
+        | Add (a1, a2) -> Add (deriv a1 v, deriv a2 v)
+        | Sub (a1, a2) -> Sub (deriv a1 v, deriv a2 v)
+        | Mul (a1, a2) -> Add (Mul(deriv a1 v, a2), Mul(a1, deriv a2 v))
