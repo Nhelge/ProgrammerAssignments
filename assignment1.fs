@@ -86,3 +86,25 @@ let e2v1 = eval e5 env;;
 let e6eval = eval e6 env
 (*let e2v2 = eval e2 [("a", 314)];;
 let e3v  = eval e3 env;; *)
+
+module exercise1_2 =
+    type aexpr =
+    | CstI of int
+    | Var of string
+    | Add of aexpr * aexpr
+    | Sub of aexpr * aexpr
+    | Mul of aexpr * aexpr
+
+    let s1 = Sub(Var "v", Add(Var "w", Var "z"))
+    let s2  = Mul(CstI 2, Sub(Var "v", Add(Var "w",Var "z")))
+    let s3 = Add(Add(Add(Var "x", Var "y"), Var "z"), Var "v")
+
+    let rec fmt a =
+        match a with
+        | CstI x -> "x"
+        | Var x -> x
+        | Add (a1, a2) ->
+            match fmt a1, fmt a2 with
+            | x, y -> x + y
+        
+
