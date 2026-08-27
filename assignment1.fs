@@ -23,7 +23,8 @@ let cvalue = lookup env "c";;
 type expr = 
   | CstI of int
   | Var of string
-  | Prim of string * expr * expr;;
+  | Prim of string * expr * expr
+  | If of expr * expr * expr
 
 let e1 = CstI 17;;
 
@@ -54,6 +55,27 @@ let rec eval e (env : (string * int) list) : int =
         | x, y -> if x = y then 1 else 0
         | _ -> failwith "error"
     | Prim _            -> failwith "unknown primitive";;
+
+let rec eval2 e (env : (string * int) list) : int =
+    match e with
+    | CstI i -> i
+    | Var x -> lookup env x
+    | Prim (op, e1, e2) ->
+        let i1 = eval2 e1 env
+        let i2 = eval2 e2 env
+        match op with
+        | "+" -> i1 + i2
+        | "-" -> i1 - i2
+        | "*" -> i1 * i2
+        | "min" -> if i1 > i2 then i2 else i1
+        | "max" -> if i1 > i2 then i1 else i2
+        | "==" -> if i1 = i2 then 1 else 0
+        | _ -> failwith "unknown operator"
+    | If (e1, e2, e3) ->
+        if eval2 e1 env <> 0 then eval2 e2 env else eval2 e3 env
+
+let test = If(Var "a",CstI 11, CstI 22)
+let evaltest = eval2 test env
 
 let e4 = Prim("min", Var "a", Var "c")
 let e5 = Prim("==", Var "b", CstI 3)
