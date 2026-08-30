@@ -1,5 +1,7 @@
 import java.util.HashMap;
 
+// exercise 1.4
+
 public abstract class Expr {
     abstract int eval(HashMap<String,Integer> env);
     abstract Expr simplify();

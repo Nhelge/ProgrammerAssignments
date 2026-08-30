@@ -24,7 +24,7 @@ type expr =
   | CstI of int
   | Var of string
   | Prim of string * expr * expr
-  | If of expr * expr * expr
+  | If of expr * expr * expr (* exercise 1.1.iv *)
 
 let e1 = CstI 17;;
 
@@ -39,23 +39,21 @@ let rec eval e (env : (string * int) list) : int =
     match e with
     | CstI i            -> i
     | Var x             -> lookup env x 
-    | Prim("+", e1, e2) -> eval e1 env + eval e2 env
+    | Prim("+", e1, e2) -> eval e1 env + eval e2 env 
     | Prim("*", e1, e2) -> eval e1 env * eval e2 env
     | Prim("-", e1, e2) -> eval e1 env - eval e2 env
-    | Prim("min", e1, e2) -> 
+    | Prim("min", e1, e2) -> (* exercise 1.1.i *)
         match eval e1 env, eval e2 env with
         | x, y -> if x > y then y else x
-        | _ -> failwith "error"
-    | Prim ("max", e1, e2) ->
+    | Prim ("max", e1, e2) -> (* exercise 1.1.i *)
         match eval e1 env, eval e2 env with
         | x, y -> if x > y then x else y
-        | _ -> failwith "error"
-    | Prim ("==", e1, e2) ->
+    | Prim ("==", e1, e2) -> (* exercise 1.1.i *)
         match eval e1 env, eval e2 env with
         | x, y -> if x = y then 1 else 0
-        | _ -> failwith "error"
     | Prim _            -> failwith "unknown primitive";;
 
+(* exercise 1.1.iii *)
 let rec eval2 e (env : (string * int) list) : int =
     match e with
     | CstI i -> i
@@ -71,7 +69,7 @@ let rec eval2 e (env : (string * int) list) : int =
         | "max" -> if i1 > i2 then i1 else i2
         | "==" -> if i1 = i2 then 1 else 0
         | _ -> failwith "unknown operator"
-    | If (e1, e2, e3) ->
+    | If (e1, e2, e3) -> (* exercise 1.1.v *)
         if eval2 e1 env <> 0 then eval2 e2 env else eval2 e3 env
 
 let test = If(Var "a",CstI 11, CstI 22)
@@ -81,13 +79,18 @@ let e4 = Prim("min", Var "a", Var "c")
 let e5 = Prim("==", Var "b", CstI 3)
 let e6 = Prim("max", CstI 3, CstI 5)
 
+(* exercise 1.1.ii evaluating abstract syntax*)
 let e1v  = eval e4 env;;
 let e2v1 = eval e5 env;;
 let e6eval = eval e6 env
-(*let e2v2 = eval e2 [("a", 314)];;
-let e3v  = eval e3 env;; *)
+(* 
+outcommented source code from the repo
+let e2v2 = eval e2 [("a", 314)];;
+let e3v  = eval e3 env;; 
+*)
 
 module exercise1_2 =
+    (* exercise 1.2.i *)
     type aexpr =
     | CstI of int
     | Var of string
@@ -95,10 +98,12 @@ module exercise1_2 =
     | Sub of aexpr * aexpr
     | Mul of aexpr * aexpr
 
+    (* exercise 1.2.ii *)
     let s1 = Sub(Var "v", Add(Var "w", Var "z"))
     let s2  = Mul(CstI 2, Sub(Var "v", Add(Var "w",Var "z")))
     let s3 = Add(Add(Add(Var "x", Var "y"), Var "z"), Var "v")
 
+    (* exercise 1.2.iii *)
     let rec fmt a =
         match a with
         | CstI x -> string x
@@ -107,6 +112,7 @@ module exercise1_2 =
         | Sub (a1, a2) -> "(" + fmt a1 + " - " + fmt a2 + ")"
         | Mul (a1, a2) -> "(" + fmt a1 + " * " + fmt a2 + ")"
     
+    (* exercise 1.2.iv *)
     let rec simplify a =
         match a with
         | CstI x -> CstI x
@@ -130,6 +136,7 @@ module exercise1_2 =
     
     let t1 = Mul(Add(CstI 1, CstI 0), Add(Var "x", CstI 0))
 
+    (* exercise 1.2.v *)
     let rec deriv a v =
         match a with
         | CstI _ -> CstI 0
