@@ -182,12 +182,19 @@ let rec minus (xs, ys) =
 
 (* Find all variables that occur free in expression e *)
 
+(* Exercise 2.2 implementation *)
 let rec freevars e : string list =
     match e with
     | CstI i -> []
     | Var x  -> [x]
-    | Let(x, erhs, ebody) -> 
-          union (freevars erhs, minus (freevars ebody, [x]))
+    | Let(bindings, ebody) ->
+          let names = List.map fst bindings
+          let rec bindingsFreeVars bs bound =
+              match bs with
+              | [] -> []
+              | (x, erhs) :: rest ->
+                    union (minus (freevars erhs, bound), bindingsFreeVars rest (x :: bound))
+          union (bindingsFreeVars bindings [], minus (freevars ebody, names))
     | Prim(ope, e1, e2) -> union (freevars e1, freevars e2);;
 
 (* Alternative definition of closed *)
@@ -216,13 +223,18 @@ let rec getindex vs x =
 
 (* Compiling from expr to texpr *)
 
+(* Exercise 2.3 implementation *)
 let rec tcomp (e : expr) (cenv : string list) : texpr =
     match e with
     | CstI i -> TCstI i
     | Var x  -> TVar (getindex cenv x)
-    | Let(x, erhs, ebody) -> 
-      let cenv1 = x :: cenv 
-      TLet(tcomp erhs cenv, tcomp ebody cenv1)
+    | Let(bindings, ebody) ->
+      let rec compBindings bs cenv1 =
+          match bs with
+          | [] -> tcomp ebody cenv1
+          | (x, erhs) :: rest ->
+                TLet(tcomp erhs cenv1, compBindings rest (x :: cenv1))
+      compBindings bindings cenv
     | Prim(ope, e1, e2) -> TPrim(ope, tcomp e1 cenv, tcomp e2 cenv);;
 
 (* Evaluation of target expressions with variable indexes.  The
