@@ -3,7 +3,7 @@ import java.util.HashMap;
 // exercise 1.4
 
 public abstract class Expr {
-    abstract int eval(HashMap<String,Integer> env);
+    abstract int eval(HashMap<String,Integer> env); // 1.4.iii
     abstract Expr simplify();
 }
 
@@ -19,7 +19,7 @@ class CstI extends Expr {
         return Integer.toString(i);
     }
 
-    int eval(HashMap<String,Integer> env){
+    int eval(HashMap<String,Integer> env){ // 1.4.iii
         return i;
     }
 
@@ -40,7 +40,7 @@ class Var extends Expr {
         return name;
     }
 
-    int eval(HashMap<String,Integer> env){
+    int eval(HashMap<String,Integer> env){ // 1.4.iii
         return env.get(name);
     }
 
@@ -68,7 +68,7 @@ class Add extends Binop {
         return "(" + e1.toString() + " + " + e2.toString() + ")";
     }
 
-    int eval(HashMap<String,Integer> env){
+    int eval(HashMap<String,Integer> env){ // 1.4.iii
         return e1.eval(env) + e2.eval(env);
     }
 
@@ -96,7 +96,7 @@ class Sub extends Binop {
         return "(" + e1.toString() + " - " + e2.toString() + ")";
     }
 
-    int eval(HashMap<String,Integer> env){
+    int eval(HashMap<String,Integer> env){ // 1.4.iii
         return e1.eval(env) - e2.eval(env);
     }
 
@@ -122,7 +122,7 @@ class Mul extends Binop {
         return "(" + e1.toString() + " * " + e2.toString() + ")";
     }
 
-    int eval(HashMap<String,Integer> env){
+    int eval(HashMap<String,Integer> env){ // 1.4.iii
         return e1.eval(env) * e2.eval(env);
     }
 
@@ -146,9 +146,9 @@ class Mul extends Binop {
 
 class Test{
     public static void main (String [] args){
-        Expr e1 = new Add(new CstI(5), new CstI(8));
-        Expr e2 = new Mul(new CstI(6), new Var("b"));
-        Expr e3 = new Sub(new CstI(9), new Mul(new Var("a"), new CstI(3)));
+        Expr e1 = new Add(new CstI(5), new CstI(8)); // 1.4.ii
+        Expr e2 = new Mul(new CstI(6), new Var("b")); // 1.4.ii
+        Expr e3 = new Sub(new CstI(9), new Mul(new Var("a"), new CstI(3))); // 1.4.ii
 
         Expr e4 = new Mul(new Add(new CstI(1), new CstI(0)), new Add(new Var("x"), new CstI(0)));
 

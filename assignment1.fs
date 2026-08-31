@@ -80,9 +80,9 @@ let e5 = Prim("==", Var "b", CstI 3)
 let e6 = Prim("max", CstI 3, CstI 5)
 
 (* exercise 1.1.ii evaluating abstract syntax*)
-let e1v  = eval e4 env;;
-let e2v1 = eval e5 env;;
-let e6eval = eval e6 env
+let e1v  = eval e4 env;; (* expected: 3*)
+let e2v1 = eval e5 env;; (* expected: 0*)
+let e6eval = eval e6 env (* expected: 5*)
 (* 
 outcommented source code from the repo
 let e2v2 = eval e2 [("a", 314)];;
@@ -99,9 +99,9 @@ module exercise1_2 =
     | Mul of aexpr * aexpr
 
     (* exercise 1.2.ii *)
-    let s1 = Sub(Var "v", Add(Var "w", Var "z"))
-    let s2  = Mul(CstI 2, Sub(Var "v", Add(Var "w",Var "z")))
-    let s3 = Add(Add(Add(Var "x", Var "y"), Var "z"), Var "v")
+    let s1 = Sub(Var "v", Add(Var "w", Var "z")) (* v - (x + z) *)
+    let s2  = Mul(CstI 2, Sub(Var "v", Add(Var "w",Var "z"))) (* 2 * (v - (w + z)) *)
+    let s3 = Add(Add(Add(Var "x", Var "y"), Var "z"), Var "v") (* x + y + z + v *)
 
     (* exercise 1.2.iii *)
     let rec fmt a =
