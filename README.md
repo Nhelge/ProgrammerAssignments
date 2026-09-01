@@ -48,22 +48,12 @@ Added an abstract function to our `Expr` class with the method signature `int ev
 Added the abstract function `simplify` to our `Expr` class which does the same as the `simplify` function in exercise `1.2.iv`.
 
 ### 2.1
-**i**
-**ii**
-**iii**
-**iv**
-**v**
+The `expr` type is extended so that `let` takes a list of `string * expr` bindings. `eval` was revised by using a fold, so we can walk through the list of bindings one at a time, and evaluate the right-hand side `erhs` accumulated so far, and adding the result `(x, xval)` to `accEnv`.
+
 ### 2.2
-**i**
-**ii**
-**iii**
-**iv**
-**v**
+`freevars` is revised to handle the updated `expr` language. For each `(x, erhs)` binding we subtract the variable names form the binding that came before it. The free variables of `ebody` are found by subtracting all bound names from its free variables.
+
 ### 2.3
-**i**
-**ii**
-**iii**
-**iv**
-**v**
+`tcomp` is revised to handle the updated `expr` language. `TLet` can only support a single binding, therefore we compile a list of bindings into nested `TLet`s. This is done by going through the bindings, compiling each right hand side built up so far, and then adding its name to that list, before going to the next binding. At last `ebody` is compiled using the final list of names. 
 
 ## Assignment 2
