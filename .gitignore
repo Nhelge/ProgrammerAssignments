@@ -11,10 +11,10 @@
 *.userosscache
 *.sln.docstates
 
-*.class
-
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+
+*.class
 
 # Build results
 [Dd]ebug/
