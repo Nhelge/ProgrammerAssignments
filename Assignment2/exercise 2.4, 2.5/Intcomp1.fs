@@ -384,8 +384,22 @@ let intsToFile (inss : int list) (fname : string) =
 
 
 (* -----------------------------------------------------------------  *)
+(* exercise 2.4 : sinstrToInt*)
+let sinstrToInt s =
+    match s with
+    | SCstI i -> [0; i] 
+    | SVar i  -> [1; i]     
+    | SAdd    -> [2]
+    | SSub    -> [3]
+    | SMul    -> [4]
+    | SPop    -> [5]
+    | SSwap   -> [6]
 
-let rec assemble (sinstr : sinstr list) : int list =
-    match sinstr with
-    | [] ->
-    | x :: xs ->
+(* exercise 2.4 : assemble *)
+let assemble (ins : sinstr list) : int list = List.collect sinstrToInt ins
+
+(* exercise 2.5 : bytecode as a file so Machine.java can run it *)
+intsToFile (assemble (scomp e1 [])) "is1.txt";;
+intsToFile (assemble (scomp e2 [])) "is2.txt";;
+intsToFile (assemble (scomp e3 [])) "is3.txt";;
+intsToFile (assemble (scomp e5 [])) "is5.txt";;
