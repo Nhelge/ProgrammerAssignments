@@ -40,3 +40,4 @@ The rightmost derivation is therefore:
 
 `LET NAME EQ LPAR CSTINT RPAR IN NAME PLUS CSTINT TIMES CSTINT END EOF`
 ### 3.4
+See "ParseTree.png" for proposed solution.
