@@ -36,6 +36,5 @@ let fromFile (filename : string) =
 // Example
 let ex = fromString "2 + 3 * 4"
 
-let compString (s : string) : sinstr list = 
-  let e = fromString s
-  scomp e []
+(* exercise 3.6 *)
+let compString (s : string) : sinstr list = scomp (fromString s) []
