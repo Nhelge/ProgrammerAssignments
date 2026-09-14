@@ -327,7 +327,6 @@ let s3 = scomp e3 []
       then for any stack stk, seval (scomp e []) s  equals  v :: s  
 *)
 
-let compString s =
 
 
 (* Output the integers in list inss to the text file called fname: *)

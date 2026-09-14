@@ -55,5 +55,3 @@ The `expr` type is extended so that `let` takes a list of `string * expr` bindin
 
 ### 2.3
 `tcomp` is revised to handle the updated `expr` language. `TLet` can only support a single binding, therefore we compile a list of bindings into nested `TLet`s. This is done by going through the bindings, compiling each right hand side built up so far, and then adding its name to that list, before going to the next binding. At last `ebody` is compiled using the final list of names. 
-
-## Assignment 2
