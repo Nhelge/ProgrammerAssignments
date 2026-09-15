@@ -334,3 +334,17 @@ let s3 = scomp e3 []
 let intsToFile (inss : int list) (fname : string) = 
     let text = String.concat " " (List.map string inss)
     System.IO.File.WriteAllText(fname, text);;
+
+
+(* exercise 4.2 *)
+let rec sum n =
+      match n with
+      | 1 -> 1 
+      | x -> x + sum (x - 1)
+
+let sum2 n = n * (n + 1) / 2
+
+let rec exp x y =
+      match y with
+      | 0 -> 1.
+      | n -> float(n) ** y + exp n (y - 1)
