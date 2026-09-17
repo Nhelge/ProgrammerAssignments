@@ -132,4 +132,31 @@ let powprog = Letfun("pow", "b",
                 If (Prim ("=", Var "n", CstI 0), CstI 1,
                 Prim ("*", Var "b", Call (Var "pow_b", Prim ("-", Var "n", CstI 1)))), Var "pow_b"), 
                 Call(Call (Var "pow", CstI 3), CstI 8))
+
+let sumpowProg = Letfun("pow", "b",
+                Letfun("pow_b", "n",
+                If(Prim("=", Var "n", CstI 0),
+                CstI 1,
+                Prim("*", Var "b", Call(Var "pow_b", Prim("-", Var "n", CstI 1)))),
+                Var "pow_b"),
+                Letfun("sumpow", "n",
+                If(Prim("=", Var "n", CstI 0),
+                Call(Call(Var "pow", CstI 3), CstI 0),
+                Prim("+", Call(Call(Var "pow", CstI 3), Var "n"),
+                Call(Var "sumpow", Prim("-", Var "n", CstI 1)))),
+                Call(Var "sumpow", CstI 11)))
+
+let sumbaseProg = Letfun("pow", "b",
+                Letfun("pow_b", "n",
+                If(Prim("=", Var "n", CstI 0),
+                CstI 1,
+                Prim("*", Var "b", Call(Var "pow_b", Prim("-", Var "n", CstI 1)))),
+                Var "pow_b"),
+                Letfun("sumbase", "i",
+                If(Prim("=", Var "i", CstI 0),
+                CstI 0,
+                Prim("+", Call(Call(Var "pow", Var "i"), CstI 8),
+                Call(Var "sumbase", Prim("-", Var "i", CstI 1)))),
+                Call(Var "sumbase", CstI 10)))
+
 *)
