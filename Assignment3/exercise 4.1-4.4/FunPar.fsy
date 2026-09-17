@@ -52,17 +52,25 @@ Expr:
   | Expr LE    Expr                     { Prim("<=", $1, $3)     }
 ;
 
+(* Exercise 4.4 *)
 AtExpr:
-    Const                               { $1                     }
-  | NAME                                { Var $1                 }
-  | LET NAME EQ Expr IN Expr END        { Let($2, $4, $6)        }
-  | LET NAME NAME EQ Expr IN Expr END   { Letfun($2, $3, $5, $7) }
-  | LPAR Expr RPAR                      { $2                     }
+    Const                                 { $1                     }
+  | NAME                                  { Var $1                 }
+  | LET NAME EQ Expr IN Expr END          { Let($2, $4, $6)        }
+  | LET NAME Names1 EQ Expr IN Expr END   { Letfun($2, $3, $5, $7) }
+  | LPAR Expr RPAR                        { $2                     }
+;
+
+Names1:
+    NAME                                { [$1]      } 
+  | NAME Names1                         { $1 :: $2  }
 ;
 
 AppExpr:
-    AtExpr AtExpr                       { Call($1, $2)           }
-  | AppExpr AtExpr                      { Call($1, $2)           }
+    AtExpr AtExpr                       { Call($1, [$2])           }
+  | AppExpr AtExpr                      { match $1 with
+                                           | Call(fe, es) -> Call(fe, es @ [$2])
+                                           | _ -> failwith "AppExpr: impossible" }
 ;
 
 Const:
