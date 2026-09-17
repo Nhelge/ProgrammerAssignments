@@ -52,7 +52,6 @@ Expr:
   | Expr LE    Expr                     { Prim("<=", $1, $3)     }
 ;
 
-(* Exercise 4.4 *)
 AtExpr:
     Const                                 { $1                     }
   | NAME                                  { Var $1                 }
