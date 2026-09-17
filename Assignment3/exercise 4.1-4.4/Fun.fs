@@ -114,12 +114,13 @@ let ex5 =
            Letfun("fib", ["n"],
                   If(Call(Var "ge2", [Var "n"]),
                      Prim("+",
-                          Call(Var "fib", Prim("-", Var "n", CstI 1)),
-                          Call(Var "fib", Prim("-", Var "n", CstI 2))),
-                     CstI 1), Call(Var "fib", CstI 25)));;
-                     
+                          Call(Var "fib", [Prim("-", Var "n", CstI 1)]),
+                          Call(Var "fib", [Prim("-", Var "n", CstI 2)])),
+                     CstI 1), Call(Var "fib", [CstI 25])));;                     
 
 (* exercise 4.2 *)
+
+(*
 let sumprog = Letfun("sum", "n", 
                 If (Prim("=", Var "n", CstI 0)), 
                 CstI 0,
@@ -131,6 +132,4 @@ let powprog = Letfun("pow", "b",
                 If (Prim ("=", Var "n", CstI 0), CstI 1,
                 Prim ("*", Var "b", Call (Var "pow_b", Prim ("-", Var "n", CstI 1)))), Var "pow_b"), 
                 Call(Call (Var "pow", CstI 3), CstI 8))
-                          Call(Var "fib", [Prim("-", Var "n", CstI 1)]),
-                          Call(Var "fib", [Prim("-", Var "n", CstI 2)])),
-                     CstI 1), Call(Var "fib", [CstI 25])));;
+*)
