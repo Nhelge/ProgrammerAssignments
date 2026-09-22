@@ -33,6 +33,7 @@ let keyword s =
     | _       -> NAME s
 }
 
+(* Exercise 4.5: Added tokens for 'and' and 'or' *)
 rule Token = parse
   | [' ' '\t' '\r'] { Token lexbuf }
   | '\n'            { lexbuf.EndPos <- lexbuf.EndPos.NextLine; Token lexbuf }
@@ -57,6 +58,9 @@ rule Token = parse
   | ')'             { RPAR }
   | eof             { EOF }
   | _               { failwith "Lexer error: illegal symbol" }
+  | "&&"            { AND }
+  | "||"            { OR }  
+
 
 and SkipComment = parse
     "*)"            { commentDepth.Value <- commentDepth.Value - 1;  
