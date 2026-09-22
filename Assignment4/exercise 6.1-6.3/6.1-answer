@@ -1,0 +1,39 @@
+Our results by running the evaluator on the four programs:
+
+    > open ParseAndRunHigher;;
+    > 
+    - run (fromString @"let add x = let f y = x+y in f end
+    -                    in add 2 5 end");;
+    val it: HigherFun.value = Int 7
+
+    > run (fromString @"let add x = let f y = x+y in f end
+    -                    in let addtwo = add 2
+    -                    in addtwo 5 end
+    -                    end");;
+    val it: HigherFun.value = Int 7
+
+    > run (fromString @"let add x = let f y = x+y in f end
+    -                    in let addtwo = add 2
+    -                    in let x = 77 in addtwo 5 end
+    -                    end
+    -                    end");;
+    val it: HigherFun.value = Int 7
+
+    > run (fromString @"let add x = let f y = x+y in f end
+    -                    in add 2 end");;
+    val it: HigherFun.value =
+    Closure
+        ("f", "y", Prim ("+", Var "x", Var "y"),
+        [("x", Int 2);
+        ("add",
+        Closure
+            ("add", "x", Letfun ("f", "y", Prim ("+", Var "x", Var "y"), Var "f"),
+            []))])
+
+Exercise 6.1 - Is the result of the third one as expected?
+    The result 'Int 7' is expected. 'f' keeps x = 2 from its own declaration, so the 'let x = 77' has no effect.
+
+Exercise 6.1 - Explain the result of the last one:
+    'add 2' applies only 'add' when given the body 'let f y = x+y in f end' which evaluates to 'f' itself, therefore there is no further call.
+    Hihger-order functions is supported in HigherFun.fs and therefore a function can be returned as a value.
+    Here the result is a closure for 'f', carrying its declaration enviroment where x is already bound to 2.   
