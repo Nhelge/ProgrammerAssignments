@@ -51,6 +51,11 @@ type tyexpr =
   | Letfun of string * string * typ * tyexpr * typ * tyexpr
           (* (f,       x,       xTyp, fBody,  rTyp, letBody *)
   | Call of tyexpr * tyexpr
+  | Nil of typ                (* exercise 5.7 *)
+  | Cons of tyexpr * tyexpr   (* exercise 5.7 *)
+  | NilB of tyexpr            (* exercise 5.7 *)
+  | Hd of tyexpr              (* exercise 5.7 *)
+  | Tl of tyexpr              (* exercise 5.7 *)
 
 (* A runtime value is an integer or a function closure *)
 
@@ -95,6 +100,7 @@ let rec eval (e : tyexpr) (env : value env) : int =
         eval fBody fBodyEnv
       | _ -> failwith "eval Call: not a function"
     | Call _ -> failwith "illegal function in Call"
+ 
 
 (* Type checking for the first-order functional language: *)
 
@@ -139,6 +145,25 @@ let rec typ (e : tyexpr) (env : typ env) : typ =
         else failwith "Call: wrong argument type"
       | _ -> failwith "Call: unknown function"
     | Call(_, eArg) -> failwith "Call: illegal function in call"
+    | Nil t -> TypL t                (* exercise 5.7 *)
+    | Cons (t1, t2) ->   (* exercise 5.7 *)
+      let tHead = typ t1 env
+      let tTail = typ t2 env
+      match tTail with
+      | TypL t when t = tHead -> TypL t
+      | TypL _ -> failwith "head type does not match list element type"
+      | _ -> failwith "tail is not a list"
+    | NilB t ->                   (* exercise 5.7 *)
+      match typ t env with
+      | t -> TypB
+    | Hd t ->                     (* exercise 5.7 *)
+      match typ t env with
+      | TypL t -> t
+      | _ -> failwith "not a typ"
+    | Tl t ->                     (* exercise 5.7 *)
+      match typ t env with
+      | TypL t -> t
+      | _ -> failwith "not a typ"
 
 let typeCheck e = typ e [];;
 
