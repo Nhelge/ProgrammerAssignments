@@ -30,6 +30,7 @@ let rec lookup env x =
 type value = 
   | Int of int
   | Closure of string * string * expr * value env       (* (f, x, fBody, fDeclEnv) *)
+  | Clos of string * expr * value env                   (* Exercise 6.2: (x, body, declEnv) *)
 
 let rec eval (e : expr) (env : value env) : value =
     match e with
@@ -65,7 +66,13 @@ let rec eval (e : expr) (env : value env) : value =
         let xVal = eval eArg env
         let fBodyEnv = (x, xVal) :: (f, fClosure) :: fDeclEnv
         in eval fBody fBodyEnv
-      | _ -> failwith "eval Call: not a function";;
+      (* Exercise 6.2: calling an anonymous function (non-recursive, so no self-binding) *)
+      | Clos (x, body, declEnv) ->
+        let xVal = eval eArg env
+        eval body ((x, xVal) :: declEnv)
+      | _ -> failwith "eval Call: not a function"
+    (* Exercise 6.2: an anonymous function evaluates to a closure over the current env *)
+    | Fun(x, body) -> Clos(x, body, env);;
 
 (* Evaluate in empty environment: program must have no free variables: *)
 

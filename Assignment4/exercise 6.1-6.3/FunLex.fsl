@@ -24,6 +24,7 @@ let keyword s =
     | "else"  -> ELSE 
     | "end"   -> END
     | "false" -> CSTBOOL false
+    | "fun"   -> FUN            (* Exercise 6.3 *)
     | "if"    -> IF
     | "in"    -> IN
     | "let"   -> LET
@@ -42,6 +43,7 @@ rule Token = parse
   | "(*"            { commentStart.Value <- lexbuf.StartPos;
                       commentDepth.Value <- 1; 
                       SkipComment lexbuf; Token lexbuf }
+  | "->"            { ARROW }                    (* Exercise 6.3 *)
   | '='             { EQ }
   | "<>"            { NE }
   | '>'             { GT }
