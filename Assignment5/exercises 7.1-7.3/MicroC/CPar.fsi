@@ -28,6 +28,7 @@ type token =
   | MOD
   | CHAR
   | ELSE
+  | FOR
   | IF
   | INT
   | NULL
@@ -68,6 +69,7 @@ type tokenId =
     | TOKEN_MOD
     | TOKEN_CHAR
     | TOKEN_ELSE
+    | TOKEN_FOR
     | TOKEN_IF
     | TOKEN_INT
     | TOKEN_NULL

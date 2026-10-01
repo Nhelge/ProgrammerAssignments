@@ -19,6 +19,7 @@ let keyword s =
     | "char"    -> CHAR 
     | "else"    -> ELSE
     | "false"   -> CSTBOOL 0
+    | "for"     -> FOR
     | "if"      -> IF
     | "int"     -> INT
     | "null"    -> NULL
