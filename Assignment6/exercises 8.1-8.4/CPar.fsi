@@ -21,8 +21,11 @@ type token =
   | LT
   | GE
   | LE
+<<<<<<< HEAD
   | PREINC
   | PREDEC
+=======
+>>>>>>> 7c23919ccd95acf10d35670303bcca495737140f
   | PLUS
   | MINUS
   | TIMES
@@ -63,8 +66,11 @@ type tokenId =
     | TOKEN_LT
     | TOKEN_GE
     | TOKEN_LE
+<<<<<<< HEAD
     | TOKEN_PREINC
     | TOKEN_PREDEC
+=======
+>>>>>>> 7c23919ccd95acf10d35670303bcca495737140f
     | TOKEN_PLUS
     | TOKEN_MINUS
     | TOKEN_TIMES
