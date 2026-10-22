@@ -16,6 +16,7 @@ let lexemeAsString lexbuf =
 
 let keyword s =
     match s with
+    | "case"    -> CASE    // Exercise 8.6
     | "char"    -> CHAR 
     | "else"    -> ELSE
     | "false"   -> CSTBOOL 0
@@ -25,6 +26,7 @@ let keyword s =
     | "print"   -> PRINT
     | "println" -> PRINTLN
     | "return"  -> RETURN
+    | "switch"  -> SWITCH  // Exercise 8.6
     | "true"    -> CSTBOOL 1
     | "void"    -> VOID 
     | "while"   -> WHILE         
@@ -74,6 +76,8 @@ rule Token = parse
   | ']'             { RBRACK }
   | ';'             { SEMI }
   | ','             { COMMA }
+  | '?'             { QUES }   // Exercise 8.5
+  | ':'             { COLON }  // Exercise 8.5
   | "//"            { EndLineComment lexbuf; Token lexbuf }
   | "/*"            { Comment lexbuf; Token lexbuf }
   | '"'             { CSTSTRING (String [] lexbuf) }

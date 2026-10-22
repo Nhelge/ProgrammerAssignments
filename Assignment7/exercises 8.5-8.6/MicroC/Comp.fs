@@ -147,6 +147,20 @@ let rec cStmt stmt (varEnv : varEnv) (funEnv : funEnv) : instr list =
       [RET (snd varEnv - 1)]
     | Return (Some e) -> 
       cExpr e varEnv funEnv @ [RET (snd varEnv)]
+    // Exercise 8.6: the switch value stays on the stack while the cases are
+    // tested and is popped before the matching body (or at the end if no case
+    // matches). After a body we jump to the end, so there is no fall-through.
+    | Switch(e, cases) ->
+      let labend = newLabel()
+      let rec cCases cases =
+          match cases with
+          | [] -> []
+          | (c, body) :: rest ->
+            let labnext = newLabel()
+            [DUP; CSTI c; EQ; IFZERO labnext; INCSP -1]
+            @ cStmt body varEnv funEnv
+            @ [GOTO labend; Label labnext] @ cCases rest
+      cExpr e varEnv funEnv @ cCases cases @ [INCSP -1; Label labend]
 
 and cStmtOrDec stmtOrDec (varEnv : varEnv) (funEnv : funEnv) : varEnv * instr list = 
     match stmtOrDec with 
@@ -209,6 +223,14 @@ and cExpr (e : expr) (varEnv : varEnv) (funEnv : funEnv) : instr list =
       @ cExpr e2 varEnv funEnv
       @ [GOTO labend; Label labtrue; CSTI 1; Label labend]
     | Call(f, es) -> callfun f es varEnv funEnv
+    // Exercise 8.5: same scheme as If, but each branch leaves a value on the stack
+    | Cond(e1, e2, e3) ->
+      let labelse = newLabel()
+      let labend  = newLabel()
+      cExpr e1 varEnv funEnv @ [IFZERO labelse]
+      @ cExpr e2 varEnv funEnv @ [GOTO labend]
+      @ [Label labelse] @ cExpr e3 varEnv funEnv
+      @ [Label labend]
 
 (* Generate code to access variable, dereference pointer or index array.
    The effect of the compiled code is to leave an lvalue on the stack.   *)
